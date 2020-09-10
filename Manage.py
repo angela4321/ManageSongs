@@ -4,7 +4,7 @@ class Manage:
         self.co = sqlite3.connect("Songs.db")
 
         self.co.execute('''create table if not exists Songs(
-                        ID INT,
+                        ID INT PRIMARY KEY,
                         TITLE TEXT,
                         ARTIST TEXT,
                         NUM_LISTENS TEXT,
@@ -14,8 +14,11 @@ class Manage:
         self.co.execute("insert into Songs (ID,TITLE,ARTIST,NUM_LISTENS,NUM_LIKES)  values(?,?,?,?,?)",(id,title,artist,num_listens,num_likes))
 
 
-    def remove_song(self):
-        print("here")
+    def remove_song(self,id):
+        self.co.execute("DELETE from Songs where ID = ?",[id])
 
-    def get_song(self):
-        print("here")
+    def get_songs(self):
+        return self.co.execute("SELECT ID, TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs")
+
+    def close(self):
+        self.co.close()
