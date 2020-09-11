@@ -7,7 +7,7 @@ while True:
     s = m.get_songs()
     for row in s:
         print(row)
-    print("Type A to add a song R to remove and F to finish")
+    print("Type A to add a song R to remove L to get songs by letter S to sort and F to finish")
     inp = input()
     if inp=='F':
         break
@@ -21,11 +21,17 @@ while True:
         print("Type in the ID of the song you would like to remove")
         inp = int(input())
         m.remove_song(inp)
-
-
-
-
-
+    elif inp == "L":
+        print("Type the first letter of the song you are looking for")
+        inp = input()
+        temp = m.letter(inp)
+        for row in temp:
+            print(row)
+    elif inp == "S":
+       temp = m.sort()
+       for row in temp:
+           print(row)
+    print("\n")
 
 m.close()
 

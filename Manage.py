@@ -22,3 +22,10 @@ class Manage:
 
     def close(self):
         self.co.close()
+
+    def letter(self,l):
+        s = "select TITLE, ARTIST from Songs where TITLE like '"+l+"%'"
+        return self.co.execute(s)
+
+    def sort(self):
+        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs ORDER BY NUM_LISTENS DESC;")
