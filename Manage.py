@@ -7,11 +7,12 @@ class Manage:
                         ID INT PRIMARY KEY,
                         TITLE TEXT,
                         ARTIST TEXT,
+                        GENRE TEXT,
                         NUM_LISTENS TEXT,
                         NUM_LIKES TEXT)''')
 
-    def add_song(self,id,title,artist,num_listens,num_likes):
-        self.co.execute("insert into Songs (ID,TITLE,ARTIST,NUM_LISTENS,NUM_LIKES)  values(?,?,?,?,?)",(id,title,artist,num_listens,num_likes))
+    def add_song(self,id,title,genre,artist,num_listens,num_likes):
+        self.co.execute("insert into Songs (ID,TITLE,GENRE,ARTIST,NUM_LISTENS,NUM_LIKES)  values(?,?,?,?,?,?)",(id,title,artist,genre,num_listens,num_likes))
 
 
     def remove_song(self,id):

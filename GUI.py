@@ -1,4 +1,8 @@
 from tkinter import *
+from Manage import Manage
+
+m = Manage()
+
 
 root = Tk()
 label1 = Label(root,text="Title")
@@ -26,8 +30,24 @@ label5.grid(row=0,column=4)
 entry5 = Entry(root,width=20)
 entry5.grid(row=1,column=4)
 
+list = []
+id = 0
 def submit():
-    print("here")
+    global id
+    id+=1
+    title = entry1.get()
+    artist = entry2.get()
+    genre = entry3.get()
+    listens = entry4.get()
+    likes = entry5.get()
+    m.add_song(id,title,artist,genre,listens,likes)
+    temp = m.get_songs()
+    i = 2
+    for row in temp:
+        i+=1
+        s = "Title: "+str(row[0])+" "+"Artist: "+str(row[1])+"Genre: "+str(row[2])+"Listens: "+str(row[3])+"Likes: "+str(row[4])
+        lab = Label(root,text=s)
+        lab.grid(row=i,column=0)
 
 submit = Button(root,text="Submit", command = submit)
 submit.grid(row=2,column=2)
