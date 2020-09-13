@@ -1,0 +1,1 @@
+Use sqlite3 to allow users to keep track of Songs. The user can enter the Title, Artist, number of listens, and number of likes of a song and can add and remove songs, sort songs, and search songs by the first letter.
