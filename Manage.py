@@ -27,5 +27,11 @@ class Manage:
         s = "select TITLE, ARTIST from Songs where TITLE like '"+l+"%'"
         return self.co.execute(s)
 
-    def sort(self):
-        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs ORDER BY NUM_LISTENS DESC;")
+    def get_artist(self,art): #returns all songs from a certain artist
+        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs where Artist = '"+art+"';")
+
+    def get_song_by_likes(self,a,b): #returns songs with num_likes between a and b
+        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs where NUM_LIKES between "+a+" and "+b+";")
+
+    def sort(self,a,b):
+        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs ORDER BY "+b+" "+a+";")
