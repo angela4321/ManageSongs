@@ -19,7 +19,7 @@ class Manage:
         self.co.execute("DELETE from Songs where ID = ?",[id])
 
     def get_songs(self):
-        return self.co.execute("SELECT ID, TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs")
+        return self.co.execute("SELECT ID, TITLE, ARTIST, GENRE,NUM_LISTENS, NUM_LIKES from Songs")
 
     def close(self):
         self.co.close()
