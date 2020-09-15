@@ -33,11 +33,10 @@ label5.grid(row=0,column=4)
 entry5 = Entry(add_song,width=20)
 entry5.grid(row=1,column=4)
 
+
 #add components allowing users to filter for songs
 filter = LabelFrame(root)
-filter.grid(row=2,column=0)
-
-
+filter.grid(row=3,column=0)
 
 #filter by Artist
 artist_label = Label(filter,text="Artist")
@@ -109,8 +108,9 @@ sort.grid(row=1,column=6)
 
 
 list = []
+ids = []
 songs = LabelFrame(root)
-songs.grid(row=1,column=0)
+songs.grid(row=2,column=0)
 id = 0
 def submit():
     global id
@@ -133,17 +133,62 @@ def submit():
         genre) + "  Listens: " + str(listens) + "  Likes: " + str(likes)
     lab = Label(songs, text=s)
     list.append(lab)
-    while(len(list)>5):
-        list.pop(0).destroy()
+    ids.append(id)
+    # while(len(list)>5):
+    #     list.pop(0).destroy()
+    for i in list:
+       i.pack_forget()
     i = 2
-    for lab in list:
-        lab.grid(row=i,column=0)
-        i+=1
+    for j in range(len(list)):
+        if j >= len(list)-5:
+            list[j].grid(row=i,column=0)
+            i+=1
+
+
+#allow user to remove song
+remove_frame = LabelFrame(root)
+remove_frame.grid(row=1,column=0)
+
+remove_label = Label(remove_frame,text = "Enter the iD of the song you want to remove")
+remove_label.grid(row=0,column=0)
+
+remove_entry = Entry(remove_frame,width=10)
+remove_entry.grid(row=1,column=0)
+
+def rem():
+
+    for i in list:
+       i.pack_forget()
+    element = int(remove_entry.get())
+
+    remove_entry.delete(0,'end')
+    m.remove_song(element)
+
+    cur = 0
+    print(ids)
+    for i in ids:
+        if i==element:
+            ids.pop(cur)
+            list.pop(cur).destroy()
+            cur-=1
+            break;
+        cur+=1
+    i = 2
+    for j in range(len(list)):
+        if j >= len(list) - 5:
+            list[j].grid(row=i, column=0)
+            i += 1
+
+
+remove_button = Button(remove_frame, text="Remove",command=rem)
+remove_button.grid(row=2,column=0)
 
 
 submit = Button(add_song,text="Submit", command = submit)
 submit.grid(row=2,column=2)
-
+filtered = []
+filtered_frame = LabelFrame(root)
+filtered_frame.grid(row=4,column=0)
 def filt():
     art = artist_entry.get()
     gen = genre_entry.get()
@@ -176,9 +221,19 @@ def filt():
     else:
         max_likes = sys.maxint
     temp = m.filter(art,gen,min_listens,max_listens,min_likes,max_likes,sort_by, order)
-    print("here")
+    for i in range(len(filtered)):
+        filtered.pop().destroy()
+
+    i=0
     for row in temp:
-        print(row)
+        s = "Song iD: " + str(row[0]) + "  Title: " + str(row[1]) + " " + "  Artist: " + str(row[2]) + "  Genre: " + str(
+        row[3]) + "  Listens: " + str(row[4]) + "  Likes: " + str(row[5])
+        lab = Label(filtered_frame,text=s)
+        lab.grid(row=i,column=0)
+        i+=1
+        filtered.append(lab)
+
+
 
 
 

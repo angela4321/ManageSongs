@@ -38,7 +38,7 @@ class Manage:
         return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs ORDER BY "+b+" "+a+";")
 
     def filter(self,artist,genre,min_listens,max_listens,min_likes,max_likes,sort_by, order):
-        s = "select TITLE, ARTIST, GENRE, NUM_LISTENS, NUM_LIKES from Songs where "
+        s = "select ID, TITLE, ARTIST, GENRE, NUM_LISTENS, NUM_LIKES from Songs where "
         if artist!=None:
             s+= "ARTIST = '"+artist+"' "
         if genre!=None:
