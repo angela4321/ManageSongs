@@ -24,19 +24,6 @@ class Manage:
     def close(self):
         self.co.close()
 
-    def letter(self,l):
-        s = "select TITLE, ARTIST from Songs where TITLE like '"+l+"%'"
-        return self.co.execute(s)
-
-    def get_artist(self,art): #returns all songs from a certain artist
-        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs where Artist = '"+art+"';")
-
-    def get_song_by_likes(self,a,b): #returns songs with num_likes between a and b
-        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs where NUM_LIKES between "+a+" and "+b+";")
-
-    def sort(self,a,b):
-        return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs ORDER BY "+b+" "+a+";")
-
     def filter(self,artist,genre,min_listens,max_listens,min_likes,max_likes,sort_by, order):
         s = "select ID, TITLE, ARTIST, GENRE, NUM_LISTENS, NUM_LIKES from Songs where "
         if artist!=None:

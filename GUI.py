@@ -51,7 +51,6 @@ genre_entry = Entry(filter)
 genre_entry.grid(row=1,column=1)
 
 
-
 #filter by min and max listens
 min_listen_label = Label(filter,text="Min listens")
 min_listen_label.grid(row=0,column=2)
@@ -99,6 +98,7 @@ def sort_filter(value):
         order = "ASC"
 
 
+#Add drop down menu for sorting
 sort_label = Label(filter,text="Sort by")
 sort_label.grid(row=0,column=6)
 ops = ["iD","Alphabetical","Most listened to","Least listened to","Most liked","Least liked"]
@@ -106,7 +106,7 @@ sort = OptionMenu(filter,v,*ops,command = sort_filter)
 sort.grid(row=1,column=6)
 
 
-
+#add songs and display
 list = []
 ids = []
 songs = LabelFrame(root)
@@ -134,8 +134,7 @@ def submit():
     lab = Label(songs, text=s)
     list.append(lab)
     ids.append(id)
-    # while(len(list)>5):
-    #     list.pop(0).destroy()
+
     for i in list:
        i.pack_forget()
     i = 2
@@ -186,6 +185,8 @@ remove_button.grid(row=2,column=0)
 
 submit = Button(add_song,text="Submit", command = submit)
 submit.grid(row=2,column=2)
+
+
 filtered = []
 filtered_frame = LabelFrame(root)
 filtered_frame.grid(row=4,column=0)
@@ -221,9 +222,11 @@ def filt():
     else:
         max_likes = sys.maxint
     temp = m.filter(art,gen,min_listens,max_listens,min_likes,max_likes,sort_by, order)
+    #destroy previous labels
     for i in range(len(filtered)):
         filtered.pop().destroy()
 
+    #add new labels
     i=0
     for row in temp:
         s = "Song iD: " + str(row[0]) + "  Title: " + str(row[1]) + " " + "  Artist: " + str(row[2]) + "  Genre: " + str(
