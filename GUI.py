@@ -76,13 +76,37 @@ max_like_entry = Entry(filter,width=10)
 max_like_entry.grid(row=1,column=5)
 
 #different sorting options
+v = StringVar(root)
+v.set("iD")
+sort_by = "iD"
+order = "ASC"
+def sort_filter(value):
+    global sort_by
+    global order
+    if value=="Alphabetical":
+        sort_by = "TITLE"
+        order = "ASC"
+    elif value == "Most listened to":
+        sort_by = "NUM_LISTENS"
+        order = "DESC"
+    elif value == "Least listened to":
+        sort_by = "NUM_LISTENS"
+        order = "ASC"
+    elif value == "Most liked":
+        sort_by = "NUM_LIKES"
+        order = "DESC"
+    elif value == "Least liked":
+        sort_by = "NUM_LIKES"
+        order = "ASC"
+
+
 sort_label = Label(filter,text="Sort by")
 sort_label.grid(row=0,column=6)
-sort = OptionMenu(filter,None,"Alphabetical","Most listened to","Least listened to","Most liked","Least liked")
+ops = ["iD","Alphabetical","Most listened to","Least listened to","Most liked","Least liked"]
+sort = OptionMenu(filter,v,*ops,command = sort_filter)
 sort.grid(row=1,column=6)
 
-filter_button = Button(filter,text="Filter")
-filter_button.grid(row=2,column=0,columnspan=6)
+
 
 list = []
 songs = LabelFrame(root)
@@ -90,6 +114,7 @@ songs.grid(row=1,column=0)
 id = 0
 def submit():
     global id
+    global list
     id+=1
     title = entry1.get()
     artist = entry2.get()
@@ -103,14 +128,61 @@ def submit():
     entry4.delete(0,'end')
     entry5.delete(0,'end')
     m.add_song(id,title,artist,genre,listens,likes)
-    temp = m.get_songs()
+
+    s = "Song iD: " + str(id) + "  Title: " + str(title) + " " + "  Artist: " + str(artist) + "  Genre: " + str(
+        genre) + "  Listens: " + str(listens) + "  Likes: " + str(likes)
+    lab = Label(songs, text=s)
+    list.append(lab)
+    while(len(list)>5):
+        list.pop(0).destroy()
     i = 2
-    for row in temp:
+    for lab in list:
+        lab.grid(row=i,column=0)
         i+=1
-        s = "Song iD: "+ str(row[0])+"  Title: "+str(row[1])+" "+"  Artist: "+str(row[2])+"  Genre: "+str(row[3])+"  Listens: "+str(row[4])+"  Likes: "+str(row[5])
-        lab = Label(songs,text=s)
-        lab.grid(row=i,column=0,columnspan=5)
+
 
 submit = Button(add_song,text="Submit", command = submit)
 submit.grid(row=2,column=2)
+
+def filt():
+    art = artist_entry.get()
+    gen = genre_entry.get()
+    if art == '':
+        art = None
+    if gen == '':
+        gen = None
+
+    min_listens = min_listen_entry.get()
+    if min_listens!='':
+        min_listens = int(min_listens)
+    else:
+        min_listens = 0
+
+    max_listens = max_listen_entry.get()
+    if max_listens!='':
+        max_listens = int(max_listens)
+    else:
+        max_listens = sys.maxint
+
+    min_likes = min_like_entry.get()
+    if min_likes!='':
+        min_likes = int(min_likes)
+    else:
+        min_likes = 0
+
+    max_likes = max_like_entry.get()
+    if max_likes!='':
+        max_likes = int(max_likes)
+    else:
+        max_likes = sys.maxint
+    temp = m.filter(art,gen,min_listens,max_listens,min_likes,max_likes,sort_by, order)
+    print("here")
+    for row in temp:
+        print(row)
+
+
+
+filter_button = Button(filter,text="Filter", command = filt)
+filter_button.grid(row=2,column=0,columnspan=6)
+
 root.mainloop()

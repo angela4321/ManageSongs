@@ -36,3 +36,17 @@ class Manage:
 
     def sort(self,a,b):
         return self.co.execute("select TITLE, ARTIST, NUM_LISTENS, NUM_LIKES from Songs ORDER BY "+b+" "+a+";")
+
+    def filter(self,artist,genre,min_listens,max_listens,min_likes,max_likes,sort_by, order):
+        s = "select TITLE, ARTIST, GENRE, NUM_LISTENS, NUM_LIKES from Songs where "
+        if artist!=None:
+            s+= "ARTIST = '"+artist+"' "
+        if genre!=None:
+            if artist!=None:
+                s+="AND "
+            s+= "GENRE = '"+genre+"' "
+        if artist!=None or genre!=None:
+            s+="AND "
+        s+="NUM_LISTENS between "+str(min_listens)+" and "+str(max_listens)+" AND NUM_LIKES between "+str(min_likes)+" and "+str(max_likes)+" ORDER BY "+sort_by+" "+order+";"
+
+        return self.co.execute(s)
