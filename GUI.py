@@ -158,13 +158,16 @@ def rem():
 
     for i in list:
        i.pack_forget()
-    element = int(remove_entry.get())
+    try:
+        element = int(remove_entry.get())
+    except:
+        return
+
 
     remove_entry.delete(0,'end')
     m.remove_song(element)
 
     cur = 0
-    print(ids)
     for i in ids:
         if i==element:
             ids.pop(cur)
